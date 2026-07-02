@@ -114,6 +114,9 @@
     </style>
 </head>
 <body>
+{% if db_maintenance %}
+<div class="maintenance-banner">Notice: The database is currently being updated. Some features may be temporarily unavailable.</div>
+{% endif %}
 <nav>
     <a href="{{ perturbseq_prefix }}">← Home</a>
     <a class="brand" href="{{ url_for('perturbseq.index') }}">Endoderm Perturb-Seq Browser</a>

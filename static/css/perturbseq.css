@@ -31,6 +31,17 @@ body {
 }
 .container { flex: 1; }
 
+/* Maintenance banner */
+.maintenance-banner {
+    background: #fdf3dc;
+    border-bottom: 1px solid var(--gold);
+    color: #92620a;
+    text-align: center;
+    padding: 0.55rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
 /* Navigation */
 nav {
     background: rgba(255, 255, 255, 0.92);

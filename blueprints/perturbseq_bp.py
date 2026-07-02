@@ -15,7 +15,15 @@ PERTURBSEQ_PREFIX = '/endoderm-perturbseq'
 
 perturbseq_bp = Blueprint('perturbseq', __name__, url_prefix=PERTURBSEQ_PREFIX)
 
-DB_PATH      = str(Path(__file__).resolve().parent.parent / "data" / "db" / "tf-perturbseq-v6.db")
+DB_PATH             = str(Path(__file__).resolve().parent.parent / "data" / "db" / "tf-perturbseq-v6.db")
+DB_MAINTENANCE_PATH = str(Path(__file__).resolve().parent.parent / "data" / "db" / "db_maintenance.txt")
+
+def _db_maintenance_active() -> bool:
+    try:
+        with open(DB_MAINTENANCE_PATH) as f:
+            return f.read().strip().upper() == "TRUE"
+    except FileNotFoundError:
+        return False
 
 def _last_commit_ts() -> int | None:
     try:
@@ -345,7 +353,11 @@ def db_unavailable(e):
 
 @perturbseq_bp.context_processor
 def inject_globals():
-    return {'module_colors': MODULE_COLORS, 'last_updated': _fmt_time_ago(_LAST_COMMIT_TS)}
+    return {
+        'module_colors': MODULE_COLORS,
+        'last_updated': _fmt_time_ago(_LAST_COMMIT_TS),
+        'db_maintenance': _db_maintenance_active(),
+    }
 
 
 @perturbseq_bp.teardown_request
